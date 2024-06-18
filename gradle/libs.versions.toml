@@ -1,0 +1,22 @@
+[versions]
+userdev = "1.7.1"
+run-paper = "1.1.0"
+bukkit = "0.6.0"
+kspigot = "1.20.4"
+commandapi-bukkit-shade = "9.5.0"
+commandapi-bukkit-kotlin = "9.5.0"
+shadow = "8.1.7"
+
+[libraries]
+kspigot = { group = "net.axay", name = "kspigot", version.ref = "kspigot" }
+commandapi-bukkit-shade = { group = "dev.jorel", name = "commandapi-bukkit-shade", version.ref = "commandapi-bukkit-shade" }
+commandapi-bukkit-kotlin = { group = "dev.jorel", name = "commandapi-bukkit-kotlin", version.ref = "commandapi-bukkit-kotlin" }
+
+
+[plugins]
+userdev = { id = "io.papermc.paperweight.userdev", version.ref = "userdev" }
+run-paper = { id = "xyz.jpenilla.run-paper", version.ref = "run-paper" }
+bukkit = { id = "net.minecrell.plugin-yml.bukkit", version.ref = "bukkit" }
+shadow = { id = "io.github.goooler.shadow", version.ref = "shadow" }
+
+[bundles]
