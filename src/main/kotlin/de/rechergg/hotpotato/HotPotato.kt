@@ -1,6 +1,8 @@
 package de.rechergg.hotpotato
 
 import de.rechergg.hotpotato.command.StartCommand
+import de.rechergg.hotpotato.game.GameEffect
+import de.rechergg.hotpotato.game.GameFunction
 import de.rechergg.hotpotato.game.GameManager
 import de.rechergg.hotpotato.listener.*
 import de.rechergg.hotpotato.world.WorldManager
@@ -21,6 +23,8 @@ class HotPotato: KSpigot() {
 
     override fun startup() {
         CommandAPI.onEnable()
+        GameEffect
+        GameFunction
         GameManager
         WorldManager
         StartCommand

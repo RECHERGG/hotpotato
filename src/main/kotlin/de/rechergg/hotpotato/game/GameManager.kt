@@ -1,30 +1,24 @@
 package de.rechergg.hotpotato.game
 
-import de.rechergg.hotpotato.HotPotato.Companion.instance
 import de.rechergg.hotpotato.extension.*
+import de.rechergg.hotpotato.game.GameEffect.updateBarProgress
+import de.rechergg.hotpotato.game.GameEffect.winEffect
+import de.rechergg.hotpotato.game.GameFunction.explode
+import de.rechergg.hotpotato.game.GameFunction.explodeFireWork
+import de.rechergg.hotpotato.game.GameFunction.getRandomPlayer
+import de.rechergg.hotpotato.game.ServerManager.restartServer
 import de.rechergg.hotpotato.world.WorldManager
-import de.rechergg.hotpotato.world.WorldManager.world
 import net.axay.kspigot.extensions.bukkit.title
 import net.axay.kspigot.extensions.onlinePlayers
-import net.axay.kspigot.runnables.sync
 import net.axay.kspigot.runnables.task
-import net.axay.kspigot.runnables.taskRun
 import net.axay.kspigot.runnables.taskRunLater
-import net.axay.kspigot.utils.addEffect
-import net.axay.kspigot.utils.fireworkItemStack
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
-import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
-import org.bukkit.entity.EntityType
-import org.bukkit.entity.Firework
 import org.bukkit.entity.Player
-import org.bukkit.inventory.meta.FireworkMeta
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
 import org.bukkit.scoreboard.Team
 import java.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -160,112 +154,12 @@ object GameManager {
     }
 
     private fun stopGame(winner: Player?) {
-        onlinePlayers.forEach {
-            bossBar.setTitle(cmp("${winner!!.name} gewinnt").toLegacy())
-            bossBar.progress = 1.0
-            bossBar.color = BarColor.GREEN
-
-            it.title(
-                cmp(winner.name, NamedTextColor.GOLD),
-                cmp("hat gewonnen"),
-                Duration.ZERO,
-                5.seconds.toJavaDuration(),
-                1.seconds.toJavaDuration()
-            )
-
-            it.playSound(it, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1.5f)
-        }
-
-        Bukkit.broadcast(prefix() + cmp("Der Server startet in 10 Sekunden neu!"))
-
-        task(false, 0, 20, 10) { task ->
-            if (task.counterDownToZero == 0L) {
-                taskRunLater(20) {
-                    onlinePlayers.forEach {
-                        it.apply {
-                            exp = 0f
-                            level = 0
-                        }
-                    }
-                }
-
-                taskRunLater(40) {
-                    Bukkit.shutdown()
-                }
-                return@task
-            }
-
-            onlinePlayers.forEach {
-                it.apply {
-                    exp = 0.1f * task.counterDownToOne!!
-                    level = task.counterDownToOne!!.toInt()
-                }
-            }
-        }
+        winEffect(winner!!)
+        restartServer()
     }
 
     private fun tickRound(progress: Long) {
-        bossBar.progress = (0.1 * progress).coerceIn(0.0, 1.0)
-
-        onlinePlayers.filter { it.potato }.forEach {
-            val color = listOf(Color.RED, Color.GREEN, Color.BLUE).random()
-            val fireworkStack = fireworkItemStack {
-                addEffect {
-                    withColor(color)
-                    withFade(color)
-                    trail(true)
-                    flicker(true)
-                }
-            }
-
-            var firework: Firework? = null
-
-            sync {
-                firework = world.spawnEntity(it.location, EntityType.FIREWORK_ROCKET) as Firework
-                firework!!.fireworkMeta = fireworkStack.itemMeta as FireworkMeta
-            }
-
-            taskRunLater(4, false) {
-                sync {
-                    firework!!.detonate()
-                }
-            }
-        }
+        updateBarProgress(progress)
+        explodeFireWork()
     }
-
-    fun eliminate(player: Player) {
-        player.apply {
-            eliminated = true
-            potato = false
-
-            allowFlight = true
-            sync {
-                addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false, false))
-            }
-        }
-
-
-        onlinePlayers.filter { it.uniqueId != player.uniqueId }.forEach {
-            sync {
-                it.hidePlayer(instance, player)
-            }
-        }
-
-        onlinePlayers.filter { it.eliminated }.forEach {
-            sync {
-                player.hidePlayer(instance, it)
-            }
-        }
-    }
-
-    private fun explode(player: Player) {
-        eliminate(player)
-
-        Bukkit.broadcast(prefix() + cmp(player.name, NamedTextColor.GOLD) + cmp(" ist explodiert!"))
-        sync {
-            world.createExplosion(player.location, 4.0f, false, false)
-        }
-    }
-
-    private fun getRandomPlayer(): Player = onlinePlayers.filter { !it.eliminated }.random()
 }

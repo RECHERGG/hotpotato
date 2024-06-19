@@ -4,8 +4,8 @@ import de.rechergg.hotpotato.extension.cmp
 import de.rechergg.hotpotato.extension.eliminated
 import de.rechergg.hotpotato.extension.plus
 import de.rechergg.hotpotato.extension.prefix
+import de.rechergg.hotpotato.game.GameFunction.eliminate
 import de.rechergg.hotpotato.game.GameManager.bossBar
-import de.rechergg.hotpotato.game.GameManager.eliminate
 import de.rechergg.hotpotato.game.GameManager.gameState
 import de.rechergg.hotpotato.game.GameManager.team
 import de.rechergg.hotpotato.game.GameState
