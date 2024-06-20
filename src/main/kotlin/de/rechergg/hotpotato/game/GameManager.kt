@@ -154,6 +154,8 @@ object GameManager {
     }
 
     private fun stopGame(winner: Player?) {
+        gameState = GameState.ENDED
+
         winEffect(winner!!)
         restartServer()
     }
