@@ -2,6 +2,8 @@ package de.rechergg.hotpotato.listener
 
 import de.rechergg.hotpotato.extension.cmp
 import de.rechergg.hotpotato.extension.eliminated
+import de.rechergg.hotpotato.extension.plus
+import de.rechergg.hotpotato.extension.prefix
 import de.rechergg.hotpotato.game.items.ItemsCache
 import de.rechergg.hotpotato.instance
 import net.axay.kspigot.event.listen
@@ -42,6 +44,11 @@ object InteractListener {
     }
 
     private fun openInventory(player: Player) {
+        if (onlinePlayers.none { !it.eliminated }) {
+            player.sendMessage(prefix() + cmp("There are no players alive.", NamedTextColor.RED))
+            return
+        }
+
         val inventory = Bukkit.createInventory(null, ((onlinePlayers.filter { !it.eliminated }.size / 9) * 9).coerceAtLeast(9), cmp("Teleporter", NamedTextColor.DARK_GRAY))
 
         onlinePlayers.filter { !it.eliminated }.forEach {
