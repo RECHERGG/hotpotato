@@ -6,12 +6,10 @@ import de.rechergg.hotpotato.extension.plus
 import de.rechergg.hotpotato.extension.prefix
 import de.rechergg.hotpotato.game.GameManager
 import de.rechergg.hotpotato.game.GameState
-import de.rechergg.hotpotato.world.WorldManager
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.playerArgument
 import dev.jorel.commandapi.kotlindsl.playerExecutor
 import net.kyori.adventure.text.format.NamedTextColor
-import org.bukkit.Location
 import org.bukkit.entity.Player
 
 object ReviveCommand {

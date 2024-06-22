@@ -23,19 +23,6 @@ object GameFunction {
             eliminated = true
             potato = false
         }
-
-
-        onlinePlayers.filter { it.uniqueId != player.uniqueId }.forEach {
-            sync {
-                it.hidePlayer(instance, player)
-            }
-        }
-
-        onlinePlayers.filter { it.eliminated }.forEach {
-            sync {
-                player.hidePlayer(instance, it)
-            }
-        }
     }
 
     fun explode(player: Player) {
