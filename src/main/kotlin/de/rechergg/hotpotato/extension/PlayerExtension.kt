@@ -54,6 +54,17 @@ var Player.eliminated: Boolean
             sync {
                 addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false, false))
             }
+            onlinePlayers.filter { it.uniqueId != uniqueId }.forEach {
+                sync {
+                    it.hidePlayer(instance, this)
+                }
+            }
+
+            onlinePlayers.filter { it.eliminated }.forEach {
+                sync {
+                    hidePlayer(instance, it)
+                }
+            }
         } else {
             eliminatedPlayers.remove(uniqueId)
             inventory.remove(Material.COMPASS)
