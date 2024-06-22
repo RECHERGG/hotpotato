@@ -27,7 +27,7 @@ bukkit {
     name = "HotPotato"
     description = getDescription()
     apiVersion = "1.16"
-    author = "RECHERGG"
+    authors = listOf("RECHERGG", "eazypaulCode")
     main = "$group.hotpotato.HotPotato"
     version = getVersion().toString()
 }
