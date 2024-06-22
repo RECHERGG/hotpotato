@@ -32,7 +32,6 @@ object ReviveCommand {
                 }
 
                 player.sendMessage(prefix() + cmp("Du hast ") + cmp(target.name, NamedTextColor.GOLD) + cmp(" wiederbelebt!"))
-                target.teleportAsync(Location(WorldManager.world, 0.5, 81.0, 0.5))
                 target.eliminated = false
             }
         }

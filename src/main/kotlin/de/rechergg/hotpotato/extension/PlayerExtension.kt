@@ -1,10 +1,12 @@
 package de.rechergg.hotpotato.extension
 
 import de.rechergg.hotpotato.game.items.ItemsCache
+import de.rechergg.hotpotato.world.WorldManager
 import net.axay.kspigot.runnables.sync
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.EntityEffect
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.EquipmentSlot
@@ -59,6 +61,7 @@ var Player.eliminated: Boolean
                 removePotionEffect(PotionEffectType.INVISIBILITY)
                 playEffect(EntityEffect.TOTEM_RESURRECT)
             }
+            teleportAsync(Location(WorldManager.world, 0.5, 81.0, 0.5))
             sendMessage(prefix() + cmp("Du wurdest wiederbelebt!"))
         }
     }
