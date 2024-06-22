@@ -22,11 +22,6 @@ object GameFunction {
         player.apply {
             eliminated = true
             potato = false
-
-            allowFlight = true
-            sync {
-                addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false, false))
-            }
         }
 
 

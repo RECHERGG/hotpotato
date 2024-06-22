@@ -4,6 +4,7 @@ import de.rechergg.hotpotato.game.items.ItemsCache
 import net.axay.kspigot.runnables.sync
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
+import org.bukkit.EntityEffect
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.EquipmentSlot
@@ -45,8 +46,19 @@ var Player.eliminated: Boolean
         if (value) {
             eliminatedPlayers.add(uniqueId)
             inventory.setItem(0, ItemsCache.compass)
+            allowFlight = true
+            sync {
+                addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false, false))
+            }
         } else {
             eliminatedPlayers.remove(uniqueId)
             inventory.remove(Material.COMPASS)
+            allowFlight = false
+            sync {
+                addPotionEffect(PotionEffect(PotionEffectType.DARKNESS, 30, 0, false, false, false))
+                removePotionEffect(PotionEffectType.INVISIBILITY)
+                playEffect(EntityEffect.TOTEM_RESURRECT)
+            }
+            sendMessage(prefix() + cmp("Du wurdest wiederbelebt!"))
         }
     }

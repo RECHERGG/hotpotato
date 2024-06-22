@@ -1,5 +1,6 @@
 package de.rechergg.hotpotato
 
+import de.rechergg.hotpotato.command.ReviveCommand
 import de.rechergg.hotpotato.command.StartCommand
 import de.rechergg.hotpotato.game.GameEffect
 import de.rechergg.hotpotato.game.GameFunction
@@ -28,6 +29,7 @@ class HotPotato: KSpigot() {
         GameManager
         WorldManager
         StartCommand
+        ReviveCommand
         ConnectionListeners
         DamageListener
         BlockListener
