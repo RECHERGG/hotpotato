@@ -10,6 +10,7 @@ import de.rechergg.hotpotato.game.ServerManager.restartServer
 import de.rechergg.hotpotato.world.WorldManager
 import net.axay.kspigot.extensions.bukkit.title
 import net.axay.kspigot.extensions.onlinePlayers
+import net.axay.kspigot.runnables.sync
 import net.axay.kspigot.runnables.task
 import net.axay.kspigot.runnables.taskRunLater
 import net.kyori.adventure.text.format.NamedTextColor
@@ -19,6 +20,8 @@ import org.bukkit.Sound
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import org.bukkit.scoreboard.Team
 import java.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -126,8 +129,14 @@ object GameManager {
         bossBar.setTitle(cmp("Heiße Kartoffel", NamedTextColor.RED).toLegacy())
         bossBar.progress = 1.0
 
-        getRandomPlayer().apply {
+        val target = getRandomPlayer().apply {
             potato = true
+        }
+
+        onlinePlayers.filter { it != target }.forEach {
+            sync {
+                it.addPotionEffect(PotionEffect(PotionEffectType.SPEED, Int.MAX_VALUE, 1, false, false, false))
+            }
         }
 
         task(false, 20, 20, 10) { task ->

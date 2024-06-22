@@ -23,7 +23,7 @@ var Player.potato: Boolean
             Bukkit.broadcast(prefix() + cmp(name, NamedTextColor.GOLD) + cmp(" ist es!"))
             sync {
                 inventory.setItem(EquipmentSlot.HEAD, ItemStack(Material.TNT))
-                addPotionEffect(PotionEffect(PotionEffectType.SPEED, Int.MAX_VALUE, 1, false, false, false))
+                addPotionEffect(PotionEffect(PotionEffectType.SPEED, Int.MAX_VALUE, 2, false, false, false))
             }
             (0..8).filter { it != 4 }.forEach {
                 inventory.setItem(it, ItemsCache.potato)
@@ -34,6 +34,7 @@ var Player.potato: Boolean
             sync {
                 inventory.setItem(EquipmentSlot.HEAD, ItemStack(Material.AIR))
                 removePotionEffect(PotionEffectType.SPEED)
+                addPotionEffect(PotionEffect(PotionEffectType.SPEED, Int.MAX_VALUE, 1, false, false, false))
             }
         }
     }
