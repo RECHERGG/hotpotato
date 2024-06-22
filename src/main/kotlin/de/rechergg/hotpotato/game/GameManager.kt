@@ -38,6 +38,11 @@ object GameManager {
         }
 
     fun start(player: Player) {
+        if (onlinePlayers.size <= 1) {
+            player.sendMessage(prefix() + cmp("Es müssen mindestens 2 Spieler online sein!", NamedTextColor.RED))
+            return
+        }
+
         player.sendMessage(prefix() + cmp("Du hast das Spiel erfolgreich gestartet.", NamedTextColor.GREEN))
         onlinePlayers.filter { it.uniqueId != player.uniqueId }.forEach {
             it.sendMessage(
