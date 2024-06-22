@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "de.rechergg"
-version = "1.0-beta"
+version = "1.1-beta"
 description = "A plugin that allows you to play HotPotato in Minecraft"
 
 paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION

@@ -52,6 +52,7 @@ var Player.eliminated: Boolean
             inventory.setItem(0, ItemsCache.compass)
             allowFlight = true
             sync {
+                removePotionEffect(PotionEffectType.SPEED)
                 addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false, false))
             }
             onlinePlayers.filter { it.uniqueId != uniqueId }.forEach {
