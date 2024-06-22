@@ -1,7 +1,9 @@
 package de.rechergg.hotpotato.extension
 
+import de.rechergg.hotpotato.HotPotato.Companion.instance
 import de.rechergg.hotpotato.game.items.ItemsCache
 import de.rechergg.hotpotato.world.WorldManager
+import net.axay.kspigot.extensions.onlinePlayers
 import net.axay.kspigot.runnables.sync
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
@@ -63,5 +65,10 @@ var Player.eliminated: Boolean
             }
             teleportAsync(Location(WorldManager.world, 0.5, 81.0, 0.5))
             sendMessage(prefix() + cmp("Du wurdest wiederbelebt!"))
+            onlinePlayers.filter { it.uniqueId != uniqueId }.forEach {
+                sync {
+                    it.showPlayer(instance, this)
+                }
+            }
         }
     }
